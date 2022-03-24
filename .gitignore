@@ -1,0 +1,11 @@
+.env
+node_modules
+.idea
+src/version.json
+/cache
+.DS_Store
+*.iml
+logs
+.vscode
+/playground
+/docs
