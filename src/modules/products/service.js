@@ -23,17 +23,31 @@ async function remove(productId) {
   await Product.findByIdAndRemove(productId);
 }
 
-async function list({ skip, limit, category, search }) {
+async function list({ skip, limit, search, sortType, sortValue, filterSortType, filterSortValue }) {
   const query = {};
+  const sortQuery = {};
   if (search) query.name = { $regex: search || '', $options: 'i' };
+  if (sortType && sortValue) {
+    if (sortType === 'category') query['category'] = sortValue;
+    if (sortType === 'color') query['variation.color'] = sortValue;
+    if (sortType === 'size') query['variation.size.name'] = sortValue;
+    if (sortType === 'tag') query['tag'] = sortValue;
+  }
+  if (filterSortType && filterSortValue) sortQuery[filterSortType] = filterSortValue === 'asc' ? 1 : -1;
 
   const [ count, data ] = await Promise.all([
     Product.count(query),
-    Product.find(query).sort({ updatedAt: -1 }).skip(skip).limit(limit)
+    Product.find(query).sort(sortQuery).skip(skip).limit(limit)
   ]);
 
   const publicData = data.map(x => x.publicData);
   return { count, data: publicData };
+}
+
+async function popularList() {
+  const popularProducts = await Product.find({}).sort({ saleCount: -1 }).skip(0).limit(3);
+
+  return popularProducts.map(x => x.publicData);
 }
 
 module.exports = {
@@ -42,4 +56,5 @@ module.exports = {
   create,
   update,
   remove,
+  popularList,
 }

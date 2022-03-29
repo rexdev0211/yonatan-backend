@@ -1,6 +1,6 @@
 const trava = require('trava');
 const { Optional, Compose, Each } = trava;
-const { isArray, isArrayItemsUnique, isBoolean, isFilledString, isNumber, isObjectId, isPositiveNumber, isString, isStringInteger } = require('../../utils/schemaValidators');
+const { isArray, isArrayItemsUnique, isBoolean, isFilledString, isNumber, isObjectId, isPositiveAndZeroNumber, isString, isStringInteger } = require('../../utils/schemaValidators');
 
 const createRequest = trava({
   request: {
@@ -8,12 +8,12 @@ const createRequest = trava({
       sku: isFilledString,
       name: isFilledString,
       slug: Optional(isFilledString),
-      price: isPositiveNumber,
-      discount: Optional(isPositiveNumber),
+      price: isPositiveAndZeroNumber,
+      discount: Optional(isPositiveAndZeroNumber),
       new: Optional(isBoolean),
-      rating: Optional(isPositiveNumber),
-      ratingCount: Optional(isPositiveNumber),
-      saleCount: Optional(isPositiveNumber),
+      rating: Optional(isPositiveAndZeroNumber),
+      ratingCount: Optional(isPositiveAndZeroNumber),
+      saleCount: Optional(isPositiveAndZeroNumber),
       category: Compose([isArray, isArrayItemsUnique, Each(isFilledString)]),
       tag: Optional(Compose([isArray, isArrayItemsUnique, Each(isFilledString)])),
       variation: Optional(isArray),
@@ -33,12 +33,12 @@ const updateRequest = trava({
       sku: isFilledString,
       name: isFilledString,
       slug: Optional(isFilledString),
-      price: isPositiveNumber,
-      discount: Optional(isPositiveNumber),
+      price: isPositiveAndZeroNumber,
+      discount: Optional(isPositiveAndZeroNumber),
       new: Optional(isBoolean),
-      rating: Optional(isPositiveNumber),
-      ratingCount: Optional(isPositiveNumber),
-      saleCount: Optional(isPositiveNumber),
+      rating: Optional(isPositiveAndZeroNumber),
+      ratingCount: Optional(isPositiveAndZeroNumber),
+      saleCount: Optional(isPositiveAndZeroNumber),
       category: Compose([isArray, isArrayItemsUnique, Each(isFilledString)]),
       tag: Optional(Compose([isArray, isArrayItemsUnique, Each(isFilledString)])),
       variation: Optional(isArray),
@@ -59,8 +59,11 @@ const listRequest = trava({
   query: {
     skip: Compose([isStringInteger, (v) => parseInt(v)]),
     limit: Compose([isStringInteger, (v) => parseInt(v)]),
-    category: Optional(isFilledString),
-    search: Optional(isString)
+    search: Optional(isString),
+    sortType: Optional(isString),
+    sortValue: Optional(isString),
+    filterSortType: Optional(isString),
+    filterSortValue: Optional(isString),
   }
 });
 

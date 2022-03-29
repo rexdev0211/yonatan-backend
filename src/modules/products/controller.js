@@ -26,10 +26,15 @@ async function remove(ctx) {
   ctx.body = null;
 }
 
+async function popularList(ctx) {
+  ctx.body = await service.popularList();
+}
+
 module.exports = {
   identity,
   list,
   create,
   update,
   remove,
+  popularList,
 }

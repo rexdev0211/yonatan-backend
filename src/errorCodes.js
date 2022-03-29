@@ -7,4 +7,8 @@ module.exports = {
     code: 'NOT_AUTHORIZED',
     description: 'user not authorized'
   },
+  USER_DATA_INCORRECT: {
+    code: 'USER_DATA_INCORRECT',
+    description: 'Email or password is not correct'
+  },
 }
