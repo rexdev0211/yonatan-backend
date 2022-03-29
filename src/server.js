@@ -36,5 +36,5 @@ module.exports = async function (worker) {
       return next();
     })
     .use(api.routes())
-    .listen(APP_PORT, () => logger.info(`Start server on ${APP_PORT}`));
+    .listen(process.env.PORT || APP_PORT, () => logger.info(`Start server on ${process.env.PORT || APP_PORT}`));
 }
