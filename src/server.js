@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
+const serve = require('koa-static');
 const cors = require('./middlewares/cors');
 const logger = require('./utils/logger');
 const httpLogger = require('./utils/httpLogger');
@@ -17,6 +18,8 @@ module.exports = async function (worker) {
   app.timeout = 10 * 60 * 1000; // global upper limit is 10 minutes for long requests
 
   messageJobChanel.receive((data) => worker.send({ ...data, messageType: ChanelNames.MessageJob }));
+
+  app.use(serve(__dirname + '/public'));
 
   app
     .use(httpLogger)

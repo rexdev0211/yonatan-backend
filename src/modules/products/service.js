@@ -13,7 +13,7 @@ async function update(productId, data) {
 }
 
 async function identity(productId) {
-  const product = await Product.findById(productId);
+  const product = await Product.findOne({ slug: productId });
   if (!product) return null;
 
   return product.publicData;
@@ -44,8 +44,8 @@ async function list({ skip, limit, search, sortType, sortValue, filterSortType, 
   return { count, data: publicData };
 }
 
-async function popularList() {
-  const popularProducts = await Product.find({}).sort({ saleCount: -1 }).skip(0).limit(3);
+async function popularList({ limit }) {
+  const popularProducts = await Product.find({}).sort({ saleCount: -1 }).skip(0).limit(limit);
 
   return popularProducts.map(x => x.publicData);
 }

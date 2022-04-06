@@ -3,7 +3,7 @@ const Router = require('koa-router');
 // const accessChecker = require('../../middlewares/accessChecker');
 const validate = require('../../middlewares/validate');
 const { create, update, list, identity, remove, popularList } = require('./controller');
-const { listRequest, createRequest, updateRequest, identityRequest, deleteRequest } = require('./validators');
+const { listRequest, createRequest, updateRequest, identityRequest, deleteRequest, popularListRequest } = require('./validators');
 
 module.exports = new Router()
   // .use(sessionChecker)
@@ -12,4 +12,4 @@ module.exports = new Router()
   .post('/', validate(createRequest), create)
   .put('/:productId', validate(updateRequest), update)
   .delete('/:productId', validate(deleteRequest), remove)
-  .get('/popular/list', popularList)
+  .get('/popular/list', validate(popularListRequest), popularList)

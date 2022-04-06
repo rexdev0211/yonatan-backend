@@ -7,12 +7,11 @@ async function login(ctx) {
   const userData = await service.login(email, password);
   ctx.body = userData;
   const opts = { signed: true, overwrite: true, maxAge: TWO_WEEKS };
-  console.log('userData', userData);
-  ctx.cookies.set('userIden', userData.id, opts);
+  ctx.cookies.set('userId', userData.id, opts);
 }
 
 function logout(ctx) {
-  ctx.cookies.set('userIden', '', { signed: true, overwrite: true });
+  ctx.cookies.set('userId', '', { signed: true, overwrite: true });
   ctx.body = null;
 }
 
@@ -29,7 +28,7 @@ async function register(ctx) {
 
   ctx.body = newUser;
 }
-  
+
 module.exports = {
   login,
   logout,

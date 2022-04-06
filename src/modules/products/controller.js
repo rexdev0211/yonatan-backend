@@ -27,7 +27,8 @@ async function remove(ctx) {
 }
 
 async function popularList(ctx) {
-  ctx.body = await service.popularList();
+  const { request: { query } } = ctx.state;
+  ctx.body = await service.popularList(query);
 }
 
 module.exports = {

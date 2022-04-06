@@ -52,7 +52,7 @@ const updateRequest = trava({
 });
 
 const identityRequest = trava({
-  params: { productId: isObjectId }
+  params: { productId: isFilledString }
 })
 
 const listRequest = trava({
@@ -67,6 +67,12 @@ const listRequest = trava({
   }
 });
 
+const popularListRequest = trava({
+  query: {
+    limit: Compose([isStringInteger, (v) => parseInt(v)]),
+  }
+});
+
 const deleteRequest = trava({
   params: { productId: isObjectId },
 })
@@ -76,5 +82,6 @@ module.exports = {
   updateRequest,
   listRequest,
   identityRequest,
-  deleteRequest
+  deleteRequest,
+  popularListRequest,
 }
